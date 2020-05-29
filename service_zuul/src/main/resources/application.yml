@@ -1,0 +1,19 @@
+# 经过负载均衡（zuul、Ngnix），再到达服务网关（zuul集群），然后再到具体的服务，服务统一注册到高可用的服务注册中心集群，
+# 服务的所有的配置文件由配置服务管理（下一篇文章讲述），配置服务的配置文件放在Git仓库
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 8904
+spring:
+  application:
+    name: service-zuul
+zuul:
+  routes:
+    ribbo:
+      path: /api-ribbon/**
+      serviceId: service-ribbon
+    feign:
+      path: /api-feign/**
+      serviced: service-feign
